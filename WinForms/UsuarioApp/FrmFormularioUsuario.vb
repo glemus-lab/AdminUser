@@ -30,7 +30,7 @@ Public Class frmFormularioUsuario
     End Sub
 
     Private Sub btnCancelar_Click(sender As Object, e As EventArgs) Handles btnCancelar.Click
-        Salir()
+        Me.Close()
     End Sub
 
     Private Async Sub btnGuardar_Click(sender As Object, e As EventArgs) Handles btnGuardar.Click
@@ -44,15 +44,15 @@ Public Class frmFormularioUsuario
 
                 If _esEdit Then
                     user.Id = _usuarioEditar.Id
-                    Await _usuarioService.ActualizarUsuario(user)
+                    Await _usuarioService.ActualizarUsuarioAsync(user)
                 Else
                     user.UserName = txtUserName.Text
-                    Await _usuarioService.GuardarUsuario(user)
+                    Await _usuarioService.GuardarUsuarioAsync(user)
                 End If
 
                 MessageBox.Show($"El usuario '{txtUserName.Text}' se guardó correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Me.DialogResult = DialogResult.OK
-                Salir()
+                Me.Close()
             Catch ex As Exception
                 MessageBox.Show($"Error al guardar: {ex.Message}.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
@@ -81,7 +81,7 @@ Public Class frmFormularioUsuario
             Case txtNombreCompleto.Text.IsNullOrEmpty
                 epNombreCompleto.SetError(txtNombreCompleto, "El campo es obligatorio.")
                 e.Cancel = True
-            Case txtCorreo.Text.Length > 60
+            Case txtNombreCompleto.Text.Length > 60
                 epNombreCompleto.SetError(txtNombreCompleto, "El campo no puede contener más de 60 caracteres.")
                 e.Cancel = True
             Case Else
@@ -136,14 +136,5 @@ Public Class frmFormularioUsuario
                 epConfirmarPassword.SetError(txtConfirmarPassword, String.Empty)
                 e.Cancel = False
         End Select
-    End Sub
-
-    Private Sub Salir()
-        epUserName.Clear()
-        epNombreCompleto.Clear()
-        epNombreCompleto.Clear()
-        epPassword.Clear()
-        epConfirmarPassword.Clear()
-        Me.Close()
     End Sub
 End Class

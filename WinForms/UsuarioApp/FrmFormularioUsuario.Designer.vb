@@ -23,6 +23,7 @@ Partial Class frmFormularioUsuario
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         components = New ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmFormularioUsuario))
         lblUserName = New Label()
         lblNombreCompleto = New Label()
         lblCorreo = New Label()
@@ -276,6 +277,7 @@ Partial Class frmFormularioUsuario
         BackColor = Color.White
         ClientSize = New Size(370, 211)
         Controls.Add(TableLayoutPanel1)
+        Icon = CType(resources.GetObject("$this.Icon"), Icon)
         MaximizeBox = False
         MinimizeBox = False
         Name = "frmFormularioUsuario"

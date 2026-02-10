@@ -1,20 +1,22 @@
 ﻿Imports DataBase
 Imports DataBase.Models
+Imports Microsoft.Extensions.DependencyInjection
 
 Public Class frmPrincipal
-    Public Property _usuarioService As IUsuarioService
-
     Public Sub New()
-        _usuarioService = Dependencias.GetService(Of IUsuarioService)()
         InitializeComponent()
         CargarUsuarios()
     End Sub
 
     Private Sub btnAgregarUsuario_Click(sender As Object, e As EventArgs) Handles btnAgregarUsuario.Click
-        Using frm = New frmFormularioUsuario(_usuarioService, Nothing)
-            If frm.ShowDialog() = DialogResult.OK Then
-                CargarUsuarios()
-            End If
+        Using scope = Dependencias.CreateScope()
+            Dim servicioUsuario = scope.ServiceProvider.GetRequiredService(Of IUsuarioService)()
+
+            Using frm = New frmFormularioUsuario(servicioUsuario, Nothing)
+                If frm.ShowDialog() = DialogResult.OK Then
+                    CargarUsuarios()
+                End If
+            End Using
         End Using
     End Sub
 
@@ -23,10 +25,14 @@ Public Class frmPrincipal
             Dim usuario = TryCast(dgvListaUsuarios.SelectedRows(0).DataBoundItem, Usuario)
 
             If usuario IsNot Nothing Then
-                Using frm = New frmFormularioUsuario(_usuarioService, usuario)
-                    If frm.ShowDialog() = DialogResult.OK Then
-                        CargarUsuarios()
-                    End If
+                Using scope = Dependencias.CreateScope()
+                    Dim usuarioService = scope.ServiceProvider.GetRequiredService(Of IUsuarioService)()
+
+                    Using frm = New frmFormularioUsuario(usuarioService, usuario)
+                        If frm.ShowDialog() = DialogResult.OK Then
+                            CargarUsuarios()
+                        End If
+                    End Using
                 End Using
             Else
                 MessageBox.Show("Error al obtener la información del usuario.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -36,15 +42,18 @@ Public Class frmPrincipal
         End If
     End Sub
 
-    Private Sub btnEliminarUsuario_Click(sender As Object, e As EventArgs) Handles btnEliminarUsuario.Click
+    Private Async Sub btnEliminarUsuario_Click(sender As Object, e As EventArgs) Handles btnEliminarUsuario.Click
         If dgvListaUsuarios.SelectedRows.Count > 0 Then
             Dim usuario = TryCast(dgvListaUsuarios.SelectedRows(0).DataBoundItem, Usuario)
             Dim result = MessageBox.Show($"¿Está seguro que desea eliminar el usuario '{usuario.UserName}'?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If result = DialogResult.Yes Then
                 Try
-                    _usuarioService.EliminarUsuario(usuario.Id)
-                    MessageBox.Show("El usuario se borró correctamente.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    CargarUsuarios()
+                    Using scope = Dependencias.CreateScope()
+                        Dim usuarioService = scope.ServiceProvider.GetRequiredService(Of IUsuarioService)()
+                        Await usuarioService.EliminarUsuarioAsync(usuario.Id)
+                        MessageBox.Show("El usuario se borró correctamente.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        CargarUsuarios()
+                    End Using
                 Catch ex As Exception
                     MessageBox.Show($"Error al eliminar: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End Try
@@ -58,7 +67,11 @@ Public Class frmPrincipal
         dgvListaUsuarios.DataSource = Nothing
 
         Dim listadoUsuario As New List(Of Usuario)
-        listadoUsuario = Await _usuarioService.ListarUsuarios()
+        Using scope = Dependencias.CreateScope()
+            Dim usuarioService = scope.ServiceProvider.GetRequiredService(Of IUsuarioService)()
+            listadoUsuario = Await usuarioService.ListarUsuariosAsync()
+        End Using
+
         dgvListaUsuarios.DataSource = listadoUsuario
 
         If dgvListaUsuarios.Columns.Contains("Id") Then

@@ -22,6 +22,7 @@ Partial Class frmPrincipal
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPrincipal))
         btnAgregarUsuario = New Button()
         btnEditarUsuario = New Button()
         btnEliminarUsuario = New Button()
@@ -100,12 +101,13 @@ Partial Class frmPrincipal
         ' 
         ' frmPrincipal
         ' 
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.Window
         ClientSize = New Size(568, 352)
         Controls.Add(Panel1)
         Controls.Add(pnlBotones)
+        Icon = CType(resources.GetObject("$this.Icon"), Icon)
         MinimizeBox = False
         Name = "frmPrincipal"
         StartPosition = FormStartPosition.CenterScreen

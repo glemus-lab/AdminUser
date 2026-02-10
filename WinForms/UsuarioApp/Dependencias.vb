@@ -19,7 +19,7 @@ Module Dependencias
         _serviceProvider = servicios.BuildServiceProvider()
     End Sub
 
-    Public Function GetService(Of T)() As T
-        Return _serviceProvider.GetRequiredService(Of T)()
+    Public Function CreateScope() As IServiceScope
+        Return _serviceProvider.CreateScope()
     End Function
 End Module

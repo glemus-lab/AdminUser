@@ -1,7 +1,6 @@
 ﻿
 Namespace My
     Partial Friend Class MyApplication
-        ' 1. Inicializar el contenedor
         Private Sub MyApplication_Startup(sender As Object, e As Microsoft.VisualBasic.ApplicationServices.StartupEventArgs) Handles Me.Startup
             Dependencias.Configurar()
         End Sub

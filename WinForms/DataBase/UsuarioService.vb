@@ -13,7 +13,7 @@ Public Class UsuarioService
         _connectionString = config.GetConnectionString("connectionString")
     End Sub
 
-    Public Async Function ListarUsuarios() As Task(Of List(Of Usuario)) Implements IUsuarioService.ListarUsuarios
+    Public Async Function ListarUsuariosAsync() As Task(Of List(Of Usuario)) Implements IUsuarioService.ListarUsuariosAsync
         Dim users = New List(Of Usuario)
 
         Using conn As New SqlConnection(_connectionString)
@@ -35,7 +35,7 @@ Public Class UsuarioService
         Return users
     End Function
 
-    Public Async Function GuardarUsuario(user As Usuario) As Task Implements IUsuarioService.GuardarUsuario
+    Public Async Function GuardarUsuarioAsync(user As Usuario) As Task Implements IUsuarioService.GuardarUsuarioAsync
         Using conn = New SqlConnection(_connectionString)
             Dim cmd = New SqlCommand(_config("ProcedimientosAlmacenados:SP_Insert"), conn)
             cmd.CommandType = CommandType.StoredProcedure
@@ -48,7 +48,7 @@ Public Class UsuarioService
         End Using
     End Function
 
-    Public Async Function ActualizarUsuario(user As Usuario) As Task Implements IUsuarioService.ActualizarUsuario
+    Public Async Function ActualizarUsuarioAsync(user As Usuario) As Task Implements IUsuarioService.ActualizarUsuarioAsync
         Using conn = New SqlConnection(_connectionString)
             Dim cmd = New SqlCommand(_config("ProcedimientosAlmacenados:SP_Update"), conn)
             cmd.CommandType = CommandType.StoredProcedure
@@ -61,7 +61,7 @@ Public Class UsuarioService
         End Using
     End Function
 
-    Public Async Function EliminarUsuario(idUsuario As Integer) As Task Implements IUsuarioService.EliminarUsuario
+    Public Async Function EliminarUsuarioAsync(idUsuario As Integer) As Task Implements IUsuarioService.EliminarUsuarioAsync
         Using conn = New SqlConnection(_connectionString)
             Dim cmd = New SqlCommand(_config("ProcedimientosAlmacenados:SP_Delete"), conn)
             cmd.CommandType = CommandType.StoredProcedure
