@@ -47,7 +47,7 @@ Public Class frmFormularioUsuario
                     Await _usuarioService.ActualizarUsuarioAsync(user)
                 Else
                     user.UserName = txtUserName.Text
-                    Await _usuarioService.GuardarUsuarioAsync(user)
+                    Await _usuarioService.CrearUsuarioAsync(user)
                 End If
 
                 MessageBox.Show($"El usuario '{txtUserName.Text}' se guardó correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information)

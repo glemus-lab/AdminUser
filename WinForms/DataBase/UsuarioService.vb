@@ -35,7 +35,7 @@ Public Class UsuarioService
         Return users
     End Function
 
-    Public Async Function GuardarUsuarioAsync(user As Usuario) As Task Implements IUsuarioService.GuardarUsuarioAsync
+    Public Async Function CrearUsuarioAsync(user As Usuario) As Task Implements IUsuarioService.CrearUsuarioAsync
         Using conn = New SqlConnection(_connectionString)
             Dim cmd = New SqlCommand(_config("ProcedimientosAlmacenados:SP_Insert"), conn)
             cmd.CommandType = CommandType.StoredProcedure
