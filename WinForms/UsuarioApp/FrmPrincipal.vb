@@ -79,10 +79,5 @@ Public Class frmPrincipal
             dgvListaUsuarios.Columns("Id").Width = 50
             dgvListaUsuarios.Columns("Id").HeaderText = "ID"
         End If
-
-        If dgvListaUsuarios.Columns.Contains("Password") Then
-            dgvListaUsuarios.Columns("Password").AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-            dgvListaUsuarios.Columns("Password").Visible = False
-        End If
     End Sub
 End Class
