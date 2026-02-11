@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 using Data;
-using Data.Models;
+using LoginUsuarioWebApp.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
