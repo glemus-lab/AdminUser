@@ -86,6 +86,7 @@ Partial Class frmPrincipal
         dgvListaUsuarios.Dock = DockStyle.Fill
         dgvListaUsuarios.Location = New Point(0, 0)
         dgvListaUsuarios.Name = "dgvListaUsuarios"
+        dgvListaUsuarios.ReadOnly = True
         dgvListaUsuarios.SelectionMode = DataGridViewSelectionMode.FullRowSelect
         dgvListaUsuarios.Size = New Size(568, 292)
         dgvListaUsuarios.TabIndex = 3
